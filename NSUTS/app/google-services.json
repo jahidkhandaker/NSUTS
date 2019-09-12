@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "798921759802",
+    "firebase_url": "https://nsuts-950.firebaseio.com",
+    "project_id": "nsuts-950",
+    "storage_bucket": "nsuts-950.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798921759802:android:02edf7c4b96625a87ba903",
+        "android_client_info": {
+          "package_name": "com.nsu499.nsuts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798921759802-83hso0l6r9ukipb1v8g4pgvn5rplufj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nsu499.nsuts",
+            "certificate_hash": "057b2e32e4b782f275a713fe0d00b81d0bd1784e"
+          }
+        },
+        {
+          "client_id": "798921759802-f35ofog1f0uu73k5e2s2f890n6vtlokk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4GFEZDde6edbciIiS5kN3RMar9Ap6FN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798921759802-f35ofog1f0uu73k5e2s2f890n6vtlokk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
