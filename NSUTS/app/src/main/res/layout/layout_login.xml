@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/loginCard"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+        <LinearLayout
+            style="@style/linearParent"
+            android:layout_gravity="center"
+            android:padding="@dimen/loginViewsMargin">
+            <TextView
+                style="@style/headerTextPrimary"
+                android:text="Login"
+                android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+
+                <AutoCompleteTextView
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    android:id="@+id/editTextEmail"
+                    style="@style/modifiedEditText"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:hint="@string/login_email_hint"/>
+
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    style="@style/modifiedEditText"
+                    android:hint="@string/login_password_hint"
+                    android:maxLines="1"
+                    android:inputType="textPassword"/>
+            <TextView
+                style="@style/viewParent"
+                android:text="Forgot Password?"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/newsMoreTextSize"
+                android:layout_gravity="end"
+                android:onClick="viewForgotPAssword"
+                android:layout_marginTop="10dp"/>
+            <Button
+                android:id="@+id/LoginButton"
+                style="@style/loginButton"
+                android:text="Login"
+                android:textColor="@color/primaryTextColor"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+            <Button
+                android:id="@+id/LoginToRegister"
+                style="@style/parent"
+                android:layout_marginTop="@dimen/loginViewsMargin"
+                android:background="@android:color/transparent"
+                android:onClick="viewRegisterClicked"
+                android:text="@string/login_signup_hint"
+                android:textAlignment="center"
+                android:textColor="@color/primaryTextColor"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
