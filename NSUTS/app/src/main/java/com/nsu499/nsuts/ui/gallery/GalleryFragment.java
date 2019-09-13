@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,21 +61,25 @@ public class GalleryFragment extends Fragment {
             tabhost.addTab(spec);
 
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("AndroidView");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId");
         spinner =  root.findViewById(R.id.spinner);
 
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final List<String> titleList = new ArrayList<String>();
+                final List<String> busList = new ArrayList<String>();
+                final List<String> busavailableList = new ArrayList<String>();
+                busList.add("Select Bus");
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
-                    String titlename = dataSnapshot1.getValue(String.class);
-                    titleList.add(titlename);
+                        String titlename = dataSnapshot1.getKey();
+                        busList.add(titlename);
+
+                        String availableseat = dataSnapshot1.child(titlename).getValue(String.class);
                 }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, titleList);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(arrayAdapter);
             }
@@ -87,6 +92,28 @@ public class GalleryFragment extends Fragment {
 
             }
         });
+
+       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+               if (parent.getItemAtPosition(position).equals("Select Bus")){
+                   //Do Nothing
+               }
+               else{
+                   String bus = parent.getItemAtPosition(position).toString();
+
+
+               }
+
+
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
 
 
 

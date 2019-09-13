@@ -2,11 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/SelectBusView"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:textColor="@color/primaryTextColor"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Select Bus" />
+
     <Spinner
         android:id="@+id/spinner"
+        android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="130dp" />
+        android:layout_below="@+id/SelectBusView"
+        android:layout_marginTop="14dp" />
 
 </RelativeLayout>
