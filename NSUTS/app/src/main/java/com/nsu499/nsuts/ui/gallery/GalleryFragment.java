@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nsu499.nsuts.BookingActivity;
 import com.nsu499.nsuts.LoginActivity;
 import com.nsu499.nsuts.R;
 
@@ -33,51 +35,45 @@ import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
 
     private Spinner spinner;
+    private Spinner spinnerToHome;
     private DatabaseReference mDatabaseReference;
+    private TextView mAseat;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-//        final TextView textView = root.findViewById(R.id.text_gallery);
-//        galleryViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+
+        final View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+
+
 
         final TabHost tabhost = root.findViewById(R.id.tabHost);
             tabhost.setup();
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId");
+
 // -------------Start TO NSU Tab-----------------------------------------------
+        spinner =  root.findViewById(R.id.spinner);
             TabHost.TabSpec spec = tabhost.newTabSpec("To NSU");
             spec.setContent(R.id.ToNSU);
             spec.setIndicator("To NSU");
             tabhost.addTab(spec);
 
-
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId");
-        spinner =  root.findViewById(R.id.spinner);
-
-
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final List<String> busList = new ArrayList<String>();
-                final List<String> busavailableList = new ArrayList<String>();
                 busList.add("Select Bus");
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
                         String titlename = dataSnapshot1.getKey();
-                        busList.add(titlename);
+                       //if (dataSnapshot1.child("tonsu").getValue(boolean.class) == true) {
+                           busList.add(titlename);
+                      // }
 
-                        String availableseat = dataSnapshot1.child(titlename).getValue(String.class);
                 }
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,7 +97,32 @@ public class GalleryFragment extends Fragment {
                    //Do Nothing
                }
                else{
-                   String bus = parent.getItemAtPosition(position).toString();
+                   final String bus = parent.getItemAtPosition(position).toString();
+
+                   //-------------------------------
+
+                   mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(DataSnapshot dataSnapshot) {
+
+                           if(dataSnapshot.exists()) {
+
+                               String availableSeat = String.valueOf(dataSnapshot.child(bus).child("Available Seat").getValue());
+                               mAseat = (TextView) root.findViewById(R.id.Aseat);
+                               mAseat.setText(availableSeat);
+                           }
+
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                       }
+                   });
+
+
+                   //-------------------------------
+
 
 
                }
@@ -120,11 +141,64 @@ public class GalleryFragment extends Fragment {
 // -------------End TO NSU Tab-----------------------------------------------
 
 // -------------Start TO Home Tab-----------------------------------------------
-
+        spinnerToHome =  root.findViewById(R.id.spinnerToHome);
             TabHost.TabSpec spec2 = tabhost.newTabSpec("To Home");
             spec2.setContent(R.id.ToHome);
             spec2.setIndicator("To Home");
             tabhost.addTab(spec2);
+
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<String> busList = new ArrayList<String>();
+                final List<String> busavailableList = new ArrayList<String>();
+                busList.add("Select Bus");
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+
+                        String titlename = dataSnapshot1.getKey();
+                        if (dataSnapshot1.child("tohome").getValue(boolean.class) == true) {
+                            busList.add(titlename);
+                        }
+
+//                        String availableSeat = String.valueOf(dataSnapshot.child(titlename).child("Available Seat").getValue());
+//                        busavailableList.add(availableseat);
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerToHome.setAdapter(arrayAdapter);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        spinnerToHome.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (parent.getItemAtPosition(position).equals("Select Bus")){
+                    //Do Nothing
+                }
+                else{
+                    String bus = parent.getItemAtPosition(position).toString();
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
 
 // -------------End TO Home Tab-----------------------------------------------

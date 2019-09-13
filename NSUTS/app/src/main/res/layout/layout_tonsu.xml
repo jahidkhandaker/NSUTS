@@ -19,4 +19,35 @@
         android:layout_below="@+id/SelectBusView"
         android:layout_marginTop="14dp" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner"
+        android:orientation="horizontal"
+        android:paddingTop="50dp">
+
+        <TextView
+            android:id="@+id/text_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:text="Available Seat:  "
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/Aseat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="00"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
 </RelativeLayout>
