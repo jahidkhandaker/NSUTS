@@ -11,4 +11,5 @@
 
     <!--colros for card-->
     <color name="whiteCardColor">#fff</color>
+    <color name="light_green">#CAE7E5</color>
 </resources>
