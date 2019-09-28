@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private EditText mNsuID;
     private EditText mRegisterEmail;
     private EditText mContact;
     private EditText mRegisterPassword;
