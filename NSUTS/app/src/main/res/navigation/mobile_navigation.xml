@@ -12,22 +12,22 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.nsu499.nsuts.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_booking"
+        android:name="com.nsu499.nsuts.ui.booking.BookingFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_booking" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.nsu499.nsuts.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_schedule"
+        android:name="com.nsu499.nsuts.ui.schedule.ScheduleFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_schedule" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.nsu499.nsuts.ui.tools.ToolsFragment"
+        android:id="@+id/nav_support"
+        android:name="com.nsu499.nsuts.ui.support.SupportFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_support" />
 
     <fragment
         android:id="@+id/nav_share"

@@ -1,4 +1,4 @@
-package com.nsu499.nsuts.ui.tools;
+package com.nsu499.nsuts.ui.support;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.nsu499.nsuts.R;
 
-public class ToolsFragment extends Fragment {
+public class SupportFragment extends Fragment {
 
-    private ToolsViewModel toolsViewModel;
+    private SupportViewModel toolsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
+                ViewModelProviders.of(this).get(SupportViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_support, container, false);
         final TextView textView = root.findViewById(R.id.text_tools);
         toolsViewModel.getText().observe(this, new Observer<String>() {
             @Override
