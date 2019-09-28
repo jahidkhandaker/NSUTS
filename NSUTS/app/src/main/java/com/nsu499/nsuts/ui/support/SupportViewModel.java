@@ -1,14 +1,14 @@
-package com.nsu499.nsuts.ui.tools;
+package com.nsu499.nsuts.ui.support;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ToolsViewModel extends ViewModel {
+public class SupportViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ToolsViewModel() {
+    public SupportViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is tools fragment");
     }

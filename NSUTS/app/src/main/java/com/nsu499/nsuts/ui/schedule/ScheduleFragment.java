@@ -1,4 +1,4 @@
-package com.nsu499.nsuts.ui.slideshow;
+package com.nsu499.nsuts.ui.schedule;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.nsu499.nsuts.R;
 
-public class SlideshowFragment extends Fragment {
+public class ScheduleFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private ScheduleViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+                ViewModelProviders.of(this).get(ScheduleViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_schedule, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(this, new Observer<String>() {
             @Override
