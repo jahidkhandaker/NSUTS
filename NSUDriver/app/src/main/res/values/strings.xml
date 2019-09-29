@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">NSUDriver</string>
     <string name="action_logout">Logout</string>
+
+    <string name="stopage_name">Stopage Name</string>
+    <string name="waiting_list">0</string>
+    <string name="available_seat">Available Seat:</string>
 </resources>

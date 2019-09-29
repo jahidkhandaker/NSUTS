@@ -63,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mBusDatabase.child(BusId).child("tonsu").setValue(true);
-//                Intent toNsuIntent = new Intent();
-//                finish();
-//                startActivity(toNsuIntent);
+                Intent intent=new Intent(MainActivity.this, StopageReqActivity.class);
+                intent.putExtra("busIdPass", BusId);
+                intent.putExtra("toNsuHome", "tonsu");
+                finish();
+                startActivity(intent);
+
             }
         });
 
@@ -73,9 +76,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mBusDatabase.child(BusId).child("tohome").setValue(true);
-//                Intent toHomeIntent = new Intent();
-//                finish();
-//                startActivity(toHomeIntent);
+
+                Intent intent=new Intent(MainActivity.this, StopageReqActivity.class);
+                intent.putExtra("busIdPass", BusId);
+                intent.putExtra("toNsuHome", "tohome");
+                finish();
+                startActivity(intent);
             }
         });
 
