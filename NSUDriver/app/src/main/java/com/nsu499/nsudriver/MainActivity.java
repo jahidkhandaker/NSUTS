@@ -1,18 +1,40 @@
 package com.nsu499.nsudriver;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String BusId;
+    private Spinner mSpinner;
+    private Button mtoNsu;
+    private Button mtoHome;
+    private DatabaseReference mBusDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +51,36 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Intent busIdIntent = getIntent();
+        BusId = busIdIntent.getStringExtra("busIdPass");
+
+        mBusDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
+        mtoHome = findViewById(R.id.toHome);
+        mtoNsu = findViewById(R.id.toNsu);
+
+        mtoNsu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBusDatabase.child(BusId).child("tonsu").setValue(true);
+//                Intent toNsuIntent = new Intent();
+//                finish();
+//                startActivity(toNsuIntent);
+            }
+        });
+
+        mtoHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBusDatabase.child(BusId).child("tohome").setValue(true);
+//                Intent toHomeIntent = new Intent();
+//                finish();
+//                startActivity(toHomeIntent);
+            }
+        });
+
+
+
     }
 
     @Override
@@ -46,8 +98,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            mBusDatabase.child(BusId).child("running").setValue(false);
+            Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+            finish();
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

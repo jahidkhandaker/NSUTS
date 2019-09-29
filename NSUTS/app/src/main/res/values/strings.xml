@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">nsuts</string>
+    <string name="app_name">NSUTS</string>
 
     <!--dimes for design 3-->
     <dimen name="headerTextSize">22sp</dimen>
