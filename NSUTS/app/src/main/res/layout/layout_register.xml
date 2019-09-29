@@ -18,6 +18,14 @@
             android:text="@string/register"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
+        <EditText
+            android:id="@+id/nsuID"
+            style="@style/modifiedEditText"
+            android:layout_marginTop="@dimen/signup_text_margin_top"
+            android:inputType="number"
+            android:maxLines="1"
+            android:hint="NSU ID"/>
+
             <EditText
                 android:id="@+id/RegisterEmail"
                 style="@style/modifiedEditText"
