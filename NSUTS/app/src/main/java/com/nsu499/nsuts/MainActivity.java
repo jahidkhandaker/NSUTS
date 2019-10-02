@@ -75,29 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
         //-------currentuser start---------------
 
-        mDatabase = FirebaseDatabase.getInstance().getReference() ;
-
-        mDatabase.child("rfid").child(FuId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    uId = dataSnapshot.getValue().toString();
-                    //mNsuId = dataSnapshot.child("userId").child(uId).child("nsuId").getValue(String.class);
-                   // function1();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         mUserIdView = hView.findViewById(R.id.userNsuId);
-        mUserIdView.setText(uId);
+        mUserIdView.setText(FuId);
         mUserEmailView = hView.findViewById(R.id.userEmailView);
         mUserEmailView.setText(FuId);
+
         //-------currentuser ends---------------
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -128,33 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         //////---Hard Code Ends Here------------------------------------------------------
-    }
-
-    private void function1() {
-
-        mDatabase.child("userId").child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-//                        mNsuId = dataSnapshot.child("nsuId").getValue(String.class);
-                       // mEmail = data.child("email").getValue().toString();
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-//        mUserIdView = hView.findViewById(R.id.userNsuId);
-//        mUserIdView.setText(mNsuId);
-
-//        mUserEmailView = hView.findViewById(R.id.userEmailView);
-//        mUserEmailView.setText(uId);
-
     }
 
     @Override
