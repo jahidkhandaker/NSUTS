@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         mtoHome = findViewById(R.id.toHome);
         mtoNsu = findViewById(R.id.toNsu);
 
+//        mBusDatabase.child(BusId).child("location").child("latitude").setValue("23.815121");
+//        mBusDatabase.child(BusId).child("location").child("longitude").setValue("90.425460");
+
         mtoNsu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

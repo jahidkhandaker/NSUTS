@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -26,8 +27,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nsu499.nsuts.R;
+
+import java.util.concurrent.Executor;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
@@ -35,9 +45,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private View root;
 
+    private Marker busMarker;
+
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
+    DatabaseReference mLocationDatabase;
     private final long MIN_TIME=1000;
     private final long MIN_DIST=5;
 
@@ -63,22 +75,70 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-
-
         return root;
     }
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady( final GoogleMap googleMap) {
+
+        final Double la = 23.815121;
+        final Double lo = 90.425460;
+        ll(mMap, googleMap, la, lo,"NSU");
+        mLocationDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
+        mLocationDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                busMarker.remove();
+                ll(mMap, googleMap, la, lo,"NSU");
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        String title = dataSnapshot1.getKey() ;
+                        Double lat  = Double.valueOf(dataSnapshot1.child("location").child("latitude").getValue(String.class));
+                        Double lon  = Double.valueOf(dataSnapshot1.child("location").child("longitude").getValue(String.class));
+
+
+                        ll(mMap, googleMap, lat, lon, title);
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+//        mFusedLocationProviderClient.getLastLocation()
+//                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        // Got last known location. In some rare situations this can be null.
+//                        if (location != null) {
+//                            // Logic to handle location object
+//                            currentLocation = location;
+//                            ll(mMap, googleMap, currentLocation.getLatitude(), currentLocation.getLongitude(),"df");
+//
+//                        }
+//                    }
+//                });
+
+
+    }
+
+    private void ll(GoogleMap map, GoogleMap googleMap, Double la, Double lo, String title) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(23.815121, 90.425460);
+        LatLng nsu = new LatLng(la, lo);
         //LatLng sydney = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in NSU"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,14.2f));
-
+        busMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title(title));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,12.2f));
     }
 
 
