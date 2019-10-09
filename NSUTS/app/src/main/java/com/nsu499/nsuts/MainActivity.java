@@ -9,12 +9,20 @@ import com.google.android.material.snackbar.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,12 +32,25 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
+    private String FuId;
+    private String uId;
+    private String mEmail;
+    private String mNsuId;
+
     private Button mLogout;
+    private TextView mUserEmailView;
+    private TextView mUserIdView;
+
+    private View hView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +68,22 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        hView =  navigationView.getHeaderView(0);
+        FuId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        //-------currentuser start---------------
+
+
+        mUserIdView = hView.findViewById(R.id.userNsuId);
+        mUserIdView.setText(FuId);
+        mUserEmailView = hView.findViewById(R.id.userEmailView);
+        mUserEmailView.setText(FuId);
+
+        //-------currentuser ends---------------
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

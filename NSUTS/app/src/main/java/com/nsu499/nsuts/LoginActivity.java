@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAuth = FirebaseAuth.getInstance();
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.editTextEmail);
         mPasswordView = (EditText) findViewById(R.id.editTextPassword);
@@ -41,10 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         mLoginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //attemptLogin();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                finish();
-                startActivity(intent);
+                attemptLogin();
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                finish();
+//                startActivity(intent);
             }
         });
 
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
     private void showErrorDialog(String s) {
         new AlertDialog.Builder(this)
                 .setTitle("Oops")
-                .setMessage("message")
+                .setMessage(s)
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
