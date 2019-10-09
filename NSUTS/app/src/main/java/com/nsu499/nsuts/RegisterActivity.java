@@ -86,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // Log.d("FlashChat", "user creation failed");
                     showErrorDialog("Registration attempt failed");
                 } else {
+
                     mAuth.getCurrentUser().sendEmailVerification()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -93,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         Toast.makeText(RegisterActivity.this,
                                                 "register is successful please verify ur email",Toast.LENGTH_LONG).show();
-
+                                        InsertUserData();
                                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                         finish();
                                         startActivity(intent);
