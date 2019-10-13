@@ -36,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private DatabaseReference mDatabase;
+    private DatabaseReference mUserDatabase;
 
     RegisterUserClass mUser;
 
@@ -121,25 +122,16 @@ public class RegisterActivity extends AppCompatActivity {
     private void InsertUserData() {
 
         mUser = new RegisterUserClass();
+        getValues();
+        mDatabase.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(mUser);
+        FirebaseAuth.getInstance().signOut();
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getValues();
-                mDatabase.child(mNsuID.getText().toString()).setValue(mUser);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
-    private void showErrorDialog(String registration_attempt_failed) {
+    private void showErrorDialog(String regfailed) {
         new AlertDialog.Builder(this)
                 .setTitle("Oops")
-                .setMessage("message")
+                .setMessage(regfailed)
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
