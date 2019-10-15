@@ -26,6 +26,8 @@ public class StopageReqActivity extends AppCompatActivity{
     private TextView mSeatNo;
     private Button mStopRide;
     DatabaseReference mDatabaseReference;
+    DatabaseReference mUserReference;
+    DatabaseReference mRfidReference;
     RecyclerView mRecyclerView;
     StopageListAdapter mStopageListAdapter;
 
@@ -40,6 +42,7 @@ public class StopageReqActivity extends AppCompatActivity{
         Intent busIdIntent = getIntent();
         BusId = busIdIntent.getStringExtra("busIdPass");
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId").child(BusId);
+
         toNsuHome = busIdIntent.getStringExtra("toNsuHome");
 
         mStopRide = findViewById(R.id.StopRide);
@@ -55,13 +58,12 @@ public class StopageReqActivity extends AppCompatActivity{
             }
         });
 
-
         mSeatNo = findViewById(R.id.seatNo);
-        mDatabaseReference.child("Available Seat").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseReference.child("Available Seat").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                   mSeatNo.setText( dataSnapshot.getValue(String.class));
+                    mSeatNo.setText( dataSnapshot.getValue(String.class));
                 }
             }
 
@@ -70,6 +72,29 @@ public class StopageReqActivity extends AppCompatActivity{
 
             }
         });
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
+        mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
+        mRfidReference.orderByChild("truth").equalTo(true).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                        String uid= snapshot.child("uid").getValue(String.class);
+                        Toast.makeText(StopageReqActivity.this,uid,Toast.LENGTH_SHORT).show();
+                        mUserReference.child(uid).child("balance").setValue("1122");
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerForStopageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
