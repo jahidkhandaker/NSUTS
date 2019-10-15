@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stopageListAdapter"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    tools:showIn="@layout/content_stopage_req">
+
+    <LinearLayout
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stopage_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Green"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/stopage_name"
+            android:textAlignment="center"
+            android:textColor="@color/Black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/waiting_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Yellow"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/waiting_list"
+            android:textAlignment="center"
+            android:textColor="@color/Black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+</LinearLayout>
