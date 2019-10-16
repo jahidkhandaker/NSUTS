@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class StopageReqActivity extends AppCompatActivity{
     private String BusId;
     private String toNsuHome;
+    private String mOnBus;
     private TextView mSeatNo;
     private Button mStopRide;
     DatabaseReference mDatabaseReference;
@@ -42,6 +43,8 @@ public class StopageReqActivity extends AppCompatActivity{
         Intent busIdIntent = getIntent();
         BusId = busIdIntent.getStringExtra("busIdPass");
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId").child(BusId);
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
+        mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
 
         toNsuHome = busIdIntent.getStringExtra("toNsuHome");
 
@@ -59,11 +62,12 @@ public class StopageReqActivity extends AppCompatActivity{
         });
 
         mSeatNo = findViewById(R.id.seatNo);
-        mDatabaseReference.child("Available Seat").addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.child("onBus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    mSeatNo.setText( dataSnapshot.getValue(String.class));
+                    mOnBus = dataSnapshot.getValue(String.class);
+                    mSeatNo.setText(mOnBus);
                 }
             }
 
@@ -72,16 +76,22 @@ public class StopageReqActivity extends AppCompatActivity{
 
             }
         });
-        mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
-        mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
+
         mRfidReference.orderByChild("truth").equalTo(true).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                        int passengerNo = Integer.valueOf(mOnBus) ;
+                        passengerNo = passengerNo + 1;
+                        String onBus = String.valueOf(passengerNo);
+                        mDatabaseReference.child("onBus").setValue(onBus);
+
+
                         String uid= snapshot.child("uid").getValue(String.class);
                         Toast.makeText(StopageReqActivity.this,uid,Toast.LENGTH_SHORT).show();
-                        mUserReference.child(uid).child("balance").setValue("1122");
+                        mUserReference.child(uid).child("booking").setValue(false);
 
                     }
 
