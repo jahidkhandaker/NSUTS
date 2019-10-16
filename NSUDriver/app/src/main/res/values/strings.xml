@@ -4,5 +4,5 @@
 
     <string name="stopage_name">Stopage Name</string>
     <string name="waiting_list">0</string>
-    <string name="available_seat">Available Seat:</string>
+    <string name="available_seat">Passenger No:</string>
 </resources>
