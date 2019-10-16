@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
+    private DatabaseReference mUserReference;
+
     private String FuId;
     private String uId;
     private String mEmail;
@@ -72,14 +75,32 @@ public class MainActivity extends AppCompatActivity {
         hView =  navigationView.getHeaderView(0);
         FuId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("userId").child(FuId);
+
 
         //-------currentuser start---------------
-
-
         mUserIdView = hView.findViewById(R.id.userNsuId);
-        mUserIdView.setText(FuId);
+
         mUserEmailView = hView.findViewById(R.id.userEmailView);
-        mUserEmailView.setText(FuId);
+
+        mUserReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String email = dataSnapshot.child("email").getValue(String.class);
+                mUserIdView.setText(email);
+
+                String balance = dataSnapshot.child("balance").getValue(String.class);
+                mUserEmailView.setText("Balance: "+ balance);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         //-------currentuser ends---------------
 
@@ -104,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             mLogout.setOnClickListener(new NavigationView.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
                 Intent intent=new Intent(MainActivity.this, LoginActivity.class);
                 finish();
                 startActivity(intent);
@@ -129,4 +151,10 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public void onBackPressed() {
+       finish();
+    }
+
 }

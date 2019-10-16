@@ -10,7 +10,7 @@ public class BookingViewModel extends androidx.lifecycle.ViewModel {
 
     public BookingViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is Booking fragment");
     }
 
     public LiveData<String> getText() {

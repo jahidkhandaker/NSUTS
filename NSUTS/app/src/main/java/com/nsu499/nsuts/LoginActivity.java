@@ -35,30 +35,38 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.editTextEmail);
-        mPasswordView = (EditText) findViewById(R.id.editTextPassword);
-        mLoginbutton = (Button) findViewById(R.id.LoginButton);
+        if (mAuth.getCurrentUser() == null) {
 
-        mLoginbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                attemptLogin();
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                finish();
-//                startActivity(intent);
-            }
-        });
+            mEmailView = (AutoCompleteTextView) findViewById(R.id.editTextEmail);
+            mPasswordView = (EditText) findViewById(R.id.editTextPassword);
+            mLoginbutton = (Button) findViewById(R.id.LoginButton);
 
-        mRegister = (Button) findViewById(R.id.LoginToRegister);
-        mRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+            mLoginbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    attemptLogin();
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    finish();
+//                    startActivity(intent);
+                }
+            });
 
+            mRegister = (Button) findViewById(R.id.LoginToRegister);
+            mRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
 
+        }
+
+        else {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            finish();
+            startActivity(intent);
+        }
 
     }
         private void attemptLogin(){

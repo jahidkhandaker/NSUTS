@@ -30,7 +30,7 @@
         android:layout_marginTop="50dp">
 
         <TextView
-            android:id="@+id/text_gallery"
+            android:id="@+id/AseatTextToNsu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
@@ -40,7 +40,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/Aseat"
+            android:id="@+id/AseatToNsu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
