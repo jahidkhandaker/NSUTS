@@ -12,13 +12,8 @@ import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nsu499.nsuts.MainActivity;
 import com.nsu499.nsuts.R;
-import com.nsu499.nsuts.RegisterActivity;
-import com.nsu499.nsuts.ui.share.ShareViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +34,7 @@ public class BookingFragment extends Fragment {
     private Spinner mDestination;
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mUserReference;
+    private DatabaseReference mFareReference;
 
     private TextView mSelectBusView;
     private TextView mSelectBusViewToHome;
@@ -64,7 +57,6 @@ public class BookingFragment extends Fragment {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId");
         mUserReference = FirebaseDatabase.getInstance().getReference().child("userId").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        //my sec---------------------------
 
         mSelectBusView = root.findViewById(R.id.SelectBusView) ;
         mSelectBusViewToHome = root.findViewById(R.id.SelectBusViewToHome) ;
@@ -93,8 +85,6 @@ public class BookingFragment extends Fragment {
         mConfirmPickup.setVisibility(View.INVISIBLE);
 // -------------Start TO Home Tab-----------------------------------------------
 
-
-
         mDestination = root.findViewById(R.id.DestinationSpinner);
         mDestination.setVisibility(View.INVISIBLE);
 
@@ -107,7 +97,7 @@ public class BookingFragment extends Fragment {
         mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("booking").getValue(boolean.class)){
+                if (dataSnapshot.child("booking").getValue(boolean.class)){ //-----------------change
 
                     mSelectBusView.setText("Already Booked");
                     mSelectBusViewToHome.setText("Already Booked");
@@ -159,8 +149,6 @@ public class BookingFragment extends Fragment {
                             }
                             else{
                                 final String bus = parent.getItemAtPosition(position).toString();
-
-                                //-------------------------------
 
                                 mDatabaseReference.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -227,7 +215,6 @@ public class BookingFragment extends Fragment {
                             else{
                                 final String bus = parent.getItemAtPosition(position).toString();
 
-                                //-------------------------------
                                 mDatabaseReference.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange( DataSnapshot dataSnapshot) {
@@ -261,10 +248,6 @@ public class BookingFragment extends Fragment {
                         }
                     });
 
-// -------------End TO Home Tab-----------------------------------------------
-
-
-
 
                 }
             }
@@ -281,7 +264,7 @@ public class BookingFragment extends Fragment {
 
     private void pickup(final String Pbus, final View root, final int check) {
         mPickUp.setVisibility(View.VISIBLE);
-       DatabaseReference mPickupReference = FirebaseDatabase.getInstance().getReference().child("busId").child(Pbus).child("stopage");
+        DatabaseReference mPickupReference = FirebaseDatabase.getInstance().getReference().child("busId").child(Pbus).child("stopage");
         mPickupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
@@ -323,7 +306,7 @@ public class BookingFragment extends Fragment {
         });
     }
 
-    private void confirmPickUp(String pbus, String pickpoint, View root, final int check) {
+    private void confirmPickUp(String pbus, final String pickpoint, View root, final int check) {
         mConfirmPickup.setVisibility(View.VISIBLE);
       final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
       final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);
@@ -334,8 +317,8 @@ public class BookingFragment extends Fragment {
                String decSeat = String.valueOf(dec) ;
                mConfirmReference.setValue(decSeat);
                SendReq(mConfirmReferenceReq);
-               reduceBalance();
-               mUserReference.child("booking").setValue(true);
+               mUserReference.child("booking").setValue(true); //---------------------------------change-------------------
+               DueBalance(pickpoint);
                Intent intent = new Intent(getActivity(), MainActivity.class);
                startActivity(intent);
            }
@@ -385,7 +368,7 @@ public class BookingFragment extends Fragment {
         });
     }
 
-    private void confirmToHome(String pbus, String pickpoint, View root, final int check) {
+    private void confirmToHome(String pbus, final String pickpoint, View root, final int check) {
         mConfirmDestination.setVisibility(View.VISIBLE);
         final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
         final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);
@@ -396,7 +379,6 @@ public class BookingFragment extends Fragment {
                 String decSeat = String.valueOf(dec) ;
                 mConfirmReference.setValue(decSeat);
                 SendReq(mConfirmReferenceReq);
-                reduceBalance();
                 mUserReference.child("booking").setValue(true);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
@@ -424,7 +406,20 @@ public class BookingFragment extends Fragment {
         });
     }
 
-    private void reduceBalance() {
+    private void DueBalance(String pickupPoint) {
+        mFareReference = FirebaseDatabase.getInstance().getReference("fare");
+        mFareReference.child(pickupPoint).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String fare = dataSnapshot.getValue(String.class);
+                mUserReference.child("due").setValue(fare);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

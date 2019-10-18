@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
         mUser.setEmail(mRegisterEmail.getText().toString());
         mUser.setContact(mContact.getText().toString());
         mUser.setBalance("00");
+        mUser.setDue("00");
         mUser.setBooking(false);
     }
 
