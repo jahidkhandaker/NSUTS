@@ -55,6 +55,7 @@ public class StopageReqActivity extends AppCompatActivity{
             public void onClick(View v) {
                 mDatabaseReference.child(toNsuHome).setValue(false);
                 StopageReqDoFalse();
+                UserBookingDoFalse(mUserReference);
                 Intent intent=new Intent(StopageReqActivity.this, MainActivity.class);
                 intent.putExtra("busIdPass", BusId);
                 finish();
@@ -137,6 +138,7 @@ public class StopageReqActivity extends AppCompatActivity{
         //RecyclerView End---------------------------------------------------------
     }
 
+
     private void rfidProcessing(final DatabaseReference mRfidReference, final String key) {
         mRfidReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -181,6 +183,23 @@ public class StopageReqActivity extends AppCompatActivity{
                 for (DataSnapshot out: dataSnapshot.getChildren()){
                     mDatabaseReference.child("stopage").child(out.getKey()).setValue("00");
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void UserBookingDoFalse(final DatabaseReference mUserReference) {
+        mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot out : dataSnapshot.getChildren()){
+                    String key = out.getKey();
+                    mUserReference.child(key).child("booking").setValue(false);
                 }
             }
 
