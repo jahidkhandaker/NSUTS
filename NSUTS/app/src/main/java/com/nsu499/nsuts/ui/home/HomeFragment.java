@@ -138,7 +138,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         LatLng nsu = new LatLng(la, lo);
         //LatLng sydney = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         busMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title(title));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,12.2f));
+        if (title == "NSU")
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,12.2f));
     }
 
 

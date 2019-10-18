@@ -2,6 +2,7 @@ package com.nsu499.nsudriver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,8 +53,9 @@ public class StopageReqActivity extends AppCompatActivity{
         mStopRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mDatabaseReference.child("stopage").setValue("0");
                 mDatabaseReference.child(toNsuHome).setValue(false);
+                StopageReqDoFalse();
+                UserBookingDoFalse(mUserReference);
                 Intent intent=new Intent(StopageReqActivity.this, MainActivity.class);
                 intent.putExtra("busIdPass", BusId);
                 finish();
@@ -77,25 +79,16 @@ public class StopageReqActivity extends AppCompatActivity{
             }
         });
 
-        mRfidReference.orderByChild("truth").equalTo(true).addValueEventListener(new ValueEventListener() {
+        mRfidReference.orderByChild("busRfid").equalTo(BusId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-
-                        int passengerNo = Integer.valueOf(mOnBus) ;
-                        passengerNo = passengerNo + 1;
-                        String onBus = String.valueOf(passengerNo);
-                        mDatabaseReference.child("onBus").setValue(onBus);
-
-
-                        String uid= snapshot.child("uid").getValue(String.class);
-                        Toast.makeText(StopageReqActivity.this,uid,Toast.LENGTH_SHORT).show();
-                        mUserReference.child(uid).child("booking").setValue(false);
-
+                    for (DataSnapshot result : dataSnapshot.getChildren()){
+                        String key = result.getKey();
+                        rfidProcessing(mRfidReference,key);
+                        String uid = result.child("uid").getValue(String.class);
+                        UserBalanceReduced(mUserReference,uid);
+                        Toast.makeText(StopageReqActivity.this,key, Toast.LENGTH_LONG).show();
                     }
-
-                }
             }
 
             @Override
@@ -125,7 +118,7 @@ public class StopageReqActivity extends AppCompatActivity{
                         String stopage = resultSnapshot.getKey();
                         String waitingNo = resultSnapshot.getValue(String.class);
                         StopageList p = new StopageList(stopage, waitingNo);
-                        Toast.makeText(StopageReqActivity.this,"Opps "+i+" ",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(StopageReqActivity.this,"Opps "+i+" ",Toast.LENGTH_SHORT).show();
                         list.add(p);
                         i++;
 
@@ -143,5 +136,77 @@ public class StopageReqActivity extends AppCompatActivity{
         });
 
         //RecyclerView End---------------------------------------------------------
+    }
+
+
+    private void rfidProcessing(final DatabaseReference mRfidReference, final String key) {
+        mRfidReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int passengerNo = Integer.valueOf(mOnBus);
+                passengerNo = passengerNo + 1;
+                String onBus = String.valueOf(passengerNo);
+                mDatabaseReference.child("onBus").setValue(onBus);
+                mRfidReference.child(key).child("busRfid").setValue("");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void UserBalanceReduced(final DatabaseReference mUserReference, final String uid) {
+        mUserReference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int balance = Integer.valueOf(dataSnapshot.child("balance").getValue(String.class));
+                int due = Integer.valueOf( dataSnapshot.child("due").getValue(String.class));
+                balance = balance - due;
+                String reducedBalance = String.valueOf(balance);
+                mUserReference.child(uid).child("balance").setValue(reducedBalance);
+                mUserReference.child(uid).child("due").setValue("00");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void StopageReqDoFalse(){
+
+        mDatabaseReference.child("stopage").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot out: dataSnapshot.getChildren()){
+                    mDatabaseReference.child("stopage").child(out.getKey()).setValue("00");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void UserBookingDoFalse(final DatabaseReference mUserReference) {
+        mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot out : dataSnapshot.getChildren()){
+                    String key = out.getKey();
+                    mUserReference.child(key).child("booking").setValue(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

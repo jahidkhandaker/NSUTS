@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mtoNsu;
     private Button mtoHome;
     private DatabaseReference mBusDatabase;
+    private DatabaseReference mRfidReference;
+    private DatabaseReference mUserReference;
 
 
     @Override
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         BusId = busIdIntent.getStringExtra("busIdPass");
 
         mBusDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
+        mBusDatabase.child(BusId).child("onBus").setValue("00");
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
+        mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
+
         mtoHome = findViewById(R.id.toHome);
         mtoNsu = findViewById(R.id.toNsu);
 
@@ -109,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             mBusDatabase.child(BusId).child("running").setValue(false);
+            RfidDoFalse();
+
+
             Intent intent=new Intent(MainActivity.this, LoginActivity.class);
             finish();
             startActivity(intent);
@@ -116,4 +125,22 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void RfidDoFalse() {
+        mRfidReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot out: dataSnapshot.getChildren()){
+                    mRfidReference.child(out.getKey()).child("truth").setValue(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
+

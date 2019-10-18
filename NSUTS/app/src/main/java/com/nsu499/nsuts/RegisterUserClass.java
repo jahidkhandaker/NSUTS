@@ -5,16 +5,18 @@ public class RegisterUserClass {
     private String Email;
     private String Contact;
     private String Balance;
+    private String Due;
     private Boolean Booking;
 
     public RegisterUserClass() {
     }
 
-    public RegisterUserClass(String nsuId, String email, String contact, String balance, Boolean booking) {
+    public RegisterUserClass(String nsuId, String email, String contact, String balance, String Due, Boolean booking) {
         this.nsuId = nsuId;
         Email = email;
         Contact = contact;
         Balance = balance;
+        Due = Due ;
         Booking = booking;
     }
 
@@ -44,6 +46,14 @@ public class RegisterUserClass {
 
     public String getBalance() {
         return Balance;
+    }
+
+    public String getDue() {
+        return Due;
+    }
+
+    public void setDue(String due) {
+        Due = due;
     }
 
     public void setBalance(String balance) {
