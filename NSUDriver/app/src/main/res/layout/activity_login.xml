@@ -54,9 +54,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
-        android:layout_marginTop="61dp"
-        android:text="Login"
-        android:background="@color/AliceBlue"/>
+        android:layout_marginTop="41dp"
+        android:background="@color/AliceBlue"
+        android:text="Login" />
 
 
 </RelativeLayout>
