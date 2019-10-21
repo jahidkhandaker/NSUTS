@@ -4,59 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Aquamarine"
+    android:background="@drawable/ic_launcher_background"
     tools:context=".LoginActivity">
 
 
-    <TextView
-        android:id="@+id/nsubusview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="57dp"
-        android:text="NSU BUS"
-        android:textAlignment="center"
-        android:textSize="30sp" />
+        android:layout_above="@id/input_group">
+        <TextView
+            android:id="@+id/nsubusview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="NSUTS"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="NSU BUS"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"/>
 
-    <EditText
-        android:id="@+id/nsuid"
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/input_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nsubusview"
-        android:layout_marginTop="85dp"
-        android:ems="10"
-        android:hint="NSUID"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        tools:layout_editor_absoluteX="86dp" />
+        android:orientation="vertical"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
-    <Spinner
-        android:id="@+id/spinnerbus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nsuid"
-        android:layout_marginTop="54dp" />
+        <Spinner
+            android:id="@+id/spinnerbus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Bus"
+            android:background="@drawable/edit_text_bottom"
+            android:padding="15dp"
+            />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerbus"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="86dp" />
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_marginTop="61dp"
-        android:text="Login"
-        android:background="@color/AliceBlue"/>
+        <EditText
+            android:id="@+id/nsuid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nsubusview"
+            android:background="@drawable/edit_text_top"
+            android:hint="NSUID"
+            android:inputType="number"
+            android:padding="15dp" />
 
 
+        <EditText
+
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_middle"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="15dp"/>
+
+
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="LOG IN"
+            android:textAllCaps="false"
+            android:textColor="#FE5295"
+            android:textSize="18sp"/>
+
+
+    </LinearLayout>
 </RelativeLayout>
