@@ -380,6 +380,7 @@ public class BookingFragment extends Fragment {
                 mConfirmReference.setValue(decSeat);
                 SendReq(mConfirmReferenceReq);
                 mUserReference.child("booking").setValue(true);
+                DueBalance(pickpoint);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
