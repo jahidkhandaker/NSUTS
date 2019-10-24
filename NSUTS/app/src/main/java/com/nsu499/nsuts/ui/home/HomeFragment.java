@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private final long MIN_DIST=5;
 
 
+    private LatLng nsu;
     private LatLng latLng;
 
     private Double la;
@@ -91,33 +92,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            double lat = location.getLatitude();
-                            double lon= location.getLongitude();
-                            LatLng nsu = new LatLng(lat, lon);
-                            MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,12.2f));
-                        }
-                    }
-                });
 
-
+        myLocation();
         mLocationDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
         mLocationDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               // busMarker.remove();
+                //busMarker.remove();
+                mMap.clear();
+                myLocation();
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         String title = dataSnapshot1.getKey() ;
                         Double lat  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("latitude").getValue(String.class)));
                         Double lon  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("longitude").getValue(String.class)));
-                        LatLng nsu = new LatLng(lat, lon);
-                        busMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title(title).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                        latLng = new LatLng(lat, lon);
+                        busMarker =  mMap.addMarker(new MarkerOptions().position(latLng).title(title).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_foreground)));
 
                     }
 
@@ -133,6 +123,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
 
 
+    }
+
+    private void myLocation() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    double lat = location.getLatitude();
+                    double lon= location.getLongitude();
+                    nsu = new LatLng(lat, lon);
+                    MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,16.2f));
+
+                }
+            }
+        });
     }
 
 
