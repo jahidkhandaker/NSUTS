@@ -92,8 +92,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    double lat = location.getLatitude();
+                    double lon= location.getLongitude();
+                    nsu = new LatLng(lat, lon);
+                    MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,16.2f));
 
-        myLocation();
+                }
+            }
+        });
         mLocationDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
         mLocationDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -135,8 +147,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
                     double lon= location.getLongitude();
                     nsu = new LatLng(lat, lon);
                     MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,16.2f));
-
                 }
             }
         });
