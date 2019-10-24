@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nsu499.nsuts.R;
 
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback{
@@ -45,6 +48,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private View root;
 
+    private Marker MeMarker;
     private Marker busMarker;
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -53,8 +57,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private final long MIN_TIME=1000;
     private final long MIN_DIST=5;
 
-    private Location currentLocation;
+
+    private LatLng nsu;
     private LatLng latLng;
+
+    private Double la;
+    private Double lo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,32 +81,45 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         mapFragment.getMapAsync(this);
 
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+
+
 
         return root;
     }
 
 
     @Override
-    public void onMapReady( final GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    double lat = location.getLatitude();
+                    double lon= location.getLongitude();
+                    nsu = new LatLng(lat, lon);
+                    MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,16.2f));
 
-        final Double la = 23.815121;
-        final Double lo = 90.425460;
-        ll(mMap, googleMap, la, lo,"NSU");
+                }
+            }
+        });
         mLocationDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
         mLocationDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                busMarker.remove();
-                ll(mMap, googleMap, la, lo,"NSU");
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //busMarker.remove();
+                mMap.clear();
+                myLocation();
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         String title = dataSnapshot1.getKey() ;
-                        Double lat  = Double.valueOf(dataSnapshot1.child("location").child("latitude").getValue(String.class));
-                        Double lon  = Double.valueOf(dataSnapshot1.child("location").child("longitude").getValue(String.class));
-
-
-                        ll(mMap, googleMap, lat, lon, title);
+                        Double lat  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("latitude").getValue(String.class)));
+                        Double lon  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("longitude").getValue(String.class)));
+                        latLng = new LatLng(lat, lon);
+                        busMarker =  mMap.addMarker(new MarkerOptions().position(latLng).title(title).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_foreground)));
 
                     }
 
@@ -114,32 +135,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
 
 
-//        mFusedLocationProviderClient.getLastLocation()
-//                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        // Got last known location. In some rare situations this can be null.
-//                        if (location != null) {
-//                            // Logic to handle location object
-//                            currentLocation = location;
-//                            ll(mMap, googleMap, currentLocation.getLatitude(), currentLocation.getLongitude(),"df");
-//
-//                        }
-//                    }
-//                });
-
-
     }
 
-    private void ll(GoogleMap map, GoogleMap googleMap, Double la, Double lo, String title) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng nsu = new LatLng(la, lo);
-        //LatLng sydney = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        busMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title(title));
-        if (title == "NSU")
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nsu,12.2f));
+    private void myLocation() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    double lat = location.getLatitude();
+                    double lon= location.getLongitude();
+                    nsu = new LatLng(lat, lon);
+                    MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
+                }
+            }
+        });
     }
 
 

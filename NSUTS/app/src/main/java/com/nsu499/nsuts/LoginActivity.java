@@ -3,8 +3,13 @@ package com.nsu499.nsuts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -18,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private int STORAGE_PERMISSION_CODE = 1;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
@@ -69,8 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-        private void attemptLogin(){
 
+
+    private void attemptLogin(){
             String email = mEmailView.getText().toString();
             String password = mPasswordView.getText().toString();
 

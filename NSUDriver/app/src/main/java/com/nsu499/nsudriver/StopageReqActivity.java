@@ -3,16 +3,25 @@ package com.nsu499.nsudriver;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.Snapshot;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +44,13 @@ public class StopageReqActivity extends AppCompatActivity{
 
     ArrayList<StopageList> list;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
+    LocationListener locationListener;
+    LocationManager locationManager;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +62,48 @@ public class StopageReqActivity extends AppCompatActivity{
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId").child(BusId);
         mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
         mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
+
+        //----Location---------------
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                String Lat = String.valueOf(location.getLatitude());
+                String Lon = String.valueOf(location.getLongitude());
+
+                mDatabaseReference.child("location").child("latitude").setValue(Lat);
+                mDatabaseReference.child("location").child("longitude").setValue(Lon);
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 15, locationListener);
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
+
+
+        //----Location---------------
 
         toNsuHome = busIdIntent.getStringExtra("toNsuHome");
 
@@ -136,8 +194,18 @@ public class StopageReqActivity extends AppCompatActivity{
         });
 
         //RecyclerView End---------------------------------------------------------
+
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        //if (requestingLocationUpdates) {
+//            startLocationUpdates();
+//        //}
+//    }
+//
+//
 
     private void rfidProcessing(final DatabaseReference mRfidReference, final String key) {
         mRfidReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -211,4 +279,6 @@ public class StopageReqActivity extends AppCompatActivity{
             }
         });
     }
+
+
 }
