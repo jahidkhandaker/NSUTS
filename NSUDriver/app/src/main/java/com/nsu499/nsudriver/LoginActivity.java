@@ -80,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                     mLoginButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            //----start---------
+                            checkDriverPermission();
+                            //----end---------
                             Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                             mBusDatabase.child(BusId).child("running").setValue(true);
                             intent.putExtra("busIdPass", BusId);
@@ -100,6 +102,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //--------End Spinner--------------
+
+
+    }
+
+    private void checkDriverPermission() {
 
 
     }
