@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_booking,
                 R.id.nav_schedule,
                 R.id.nav_support,
-                R.id.nav_share)
+                R.id.nav_info )
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
