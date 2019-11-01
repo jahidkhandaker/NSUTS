@@ -1,5 +1,6 @@
 package com.nsu499.nsuts.ui.booking;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -66,16 +67,16 @@ public class BookingFragment extends Fragment {
         spinnerToHome =  root.findViewById(R.id.spinnerToHome);
         spinnerToHome.setVisibility(View.INVISIBLE);
 
-        mAseatTextToNsu = (TextView) root.findViewById(R.id.AseatTextToNsu);
+        mAseatTextToNsu = root.findViewById(R.id.AseatTextToNsu);
         mAseatTextToNsu.setVisibility(View.INVISIBLE);
 
-        mAseatToNsu = (TextView) root.findViewById(R.id.AseatToNsu);
+        mAseatToNsu =  root.findViewById(R.id.AseatToNsu);
         mAseatToNsu.setVisibility(View.INVISIBLE);
 
-        mAseatTextToHome = (TextView) root.findViewById(R.id.AseatTextToHome);
+        mAseatTextToHome =  root.findViewById(R.id.AseatTextToHome);
         mAseatTextToHome.setVisibility(View.INVISIBLE);
 
-        mAseatToHome = (TextView) root.findViewById(R.id.AseatToHome);
+        mAseatToHome =  root.findViewById(R.id.AseatToHome);
         mAseatToHome.setVisibility(View.INVISIBLE);
 
         mPickUp = root.findViewById(R.id.pickUp);
@@ -95,6 +96,7 @@ public class BookingFragment extends Fragment {
 
 
         mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("booking").getValue(boolean.class)){ //-----------------change
@@ -119,7 +121,7 @@ public class BookingFragment extends Fragment {
 
                     mDatabaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             final List<String> busList = new ArrayList<>();
                             busList.add("Select Bus");
                             if(dataSnapshot.exists()) {
@@ -184,7 +186,7 @@ public class BookingFragment extends Fragment {
                     mDatabaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            final List<String> busList = new ArrayList<String>();
+                            final List<String> busList = new ArrayList<>();
                             busList.add("Select Bus");
                             if(dataSnapshot.exists()) {
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -193,7 +195,7 @@ public class BookingFragment extends Fragment {
                                         busList.add(titlename);
                                     }
                                 }
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
+                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, busList);
                                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spinnerToHome.setAdapter(arrayAdapter);
                             }
@@ -268,14 +270,14 @@ public class BookingFragment extends Fragment {
         mPickupReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
-                final List<String> stopageList = new ArrayList<String>();
+                final List<String> stopageList = new ArrayList<>();
                 stopageList.add("Select PickUp Point");
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshotPick : dataSnapshot.getChildren()) {
                         String stopagename =  dataSnapshotPick.getKey();
                         stopageList.add(stopagename);
                     }
-                    ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
+                    ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
                     arrayAdapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     mPickUp.setAdapter(arrayAdapterr);
                 }
@@ -295,7 +297,7 @@ public class BookingFragment extends Fragment {
                 }
                 else{
                     final String pickpoint = parent.getItemAtPosition(position).toString();
-                    confirmPickUp(Pbus, pickpoint, root, check);
+                    confirmPickUp(Pbus, pickpoint, check);
                 }
             }
 
@@ -306,7 +308,7 @@ public class BookingFragment extends Fragment {
         });
     }
 
-    private void confirmPickUp(String pbus, final String pickpoint, View root, final int check) {
+    private void confirmPickUp(final String pbus, final String pickpoint, final int check) {
         mConfirmPickup.setVisibility(View.VISIBLE);
       final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
       final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);
@@ -319,11 +321,13 @@ public class BookingFragment extends Fragment {
                SendReq(mConfirmReferenceReq);
                mUserReference.child("booking").setValue(true); //---------------------------------change-------------------
                DueBalance(pickpoint);
+               mUserReference.child("booked").setValue(pbus);
                Intent intent = new Intent(getActivity(), MainActivity.class);
                startActivity(intent);
            }
        });
     }
+
 
     private void destination(final String Pbus, final View root, final int check) {
         mDestination.setVisibility(View.VISIBLE);
@@ -368,7 +372,7 @@ public class BookingFragment extends Fragment {
         });
     }
 
-    private void confirmToHome(String pbus, final String pickpoint, View root, final int check) {
+    private void confirmToHome(final String pbus, final String pickpoint, View root, final int check) {
         mConfirmDestination.setVisibility(View.VISIBLE);
         final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
         final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);

@@ -2,26 +2,20 @@ package com.nsu499.nsudriver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
-import androidx.core.app.ActivityCompat;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,8 +38,6 @@ public class StopageReqActivity extends AppCompatActivity{
 
     ArrayList<StopageList> list;
 
-    private FusedLocationProviderClient fusedLocationClient;
-
     LocationListener locationListener;
     LocationManager locationManager;
 
@@ -64,16 +56,18 @@ public class StopageReqActivity extends AppCompatActivity{
         mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
 
         //----Location---------------
-
         locationListener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
 
                 String Lat = String.valueOf(location.getLatitude());
                 String Lon = String.valueOf(location.getLongitude());
+                if (Lat!=null && Lon!=null){
+                    mDatabaseReference.child("location").child("latitude").setValue(Lat);
+                    mDatabaseReference.child("location").child("longitude").setValue(Lon);
+                }
 
-                mDatabaseReference.child("location").child("latitude").setValue(Lat);
-                mDatabaseReference.child("location").child("longitude").setValue(Lon);
 
             }
 
@@ -157,19 +151,19 @@ public class StopageReqActivity extends AppCompatActivity{
 
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerForStopageList);
+        mRecyclerView =  findViewById(R.id.recyclerForStopageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //RecyclerView Start---------------------------------------------------------
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerForStopageList);
+        mRecyclerView =  findViewById(R.id.recyclerForStopageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         mDatabaseReference.child("stopage").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                list= new ArrayList<StopageList>();
+                list= new ArrayList<>();
                 if(dataSnapshot.exists()) {
                     int i=1;
                     for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
@@ -196,16 +190,6 @@ public class StopageReqActivity extends AppCompatActivity{
         //RecyclerView End---------------------------------------------------------
 
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        //if (requestingLocationUpdates) {
-//            startLocationUpdates();
-//        //}
-//    }
-//
-//
 
     private void rfidProcessing(final DatabaseReference mRfidReference, final String key) {
         mRfidReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {

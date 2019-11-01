@@ -1,6 +1,10 @@
 package com.nsu499.nsuts;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -39,22 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;
     private DatabaseReference mUserReference;
-
     private String FuId;
-    private String uId;
-    private String mEmail;
-    private String mNsuId;
 
     private Button mLogout;
     private TextView mUserEmailView;
     private TextView mUserIdView;
-
     private View hView;
 
+    private final String Channel_ID = "personal_Notification";
+    private final int Notification_Id = 001;
+
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setVisibility(View.INVISIBLE);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
                 String balance = dataSnapshot.child("balance").getValue(String.class);
                 mUserEmailView.setText("Balance: "+ balance);
+                int baln = Integer.valueOf(balance);
+                if (baln < 30) {
+                     balanceNotification(baln);
+                }
             }
 
             @Override
@@ -100,13 +107,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-        //-------currentuser ends---------------
-
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_booking,
@@ -133,14 +133,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         //////---Hard Code Ends Here------------------------------------------------------
     }
+    public void balanceNotification(int baln) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(Channel_ID, "ntfy", importance);
+            channel.setDescription("ntfy");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,Channel_ID);
+        builder.setSmallIcon(R.drawable.ic_menu_feedback);
+        builder.setContentTitle("Low Balance");
+        builder.setContentText("Current Balance: "+ baln);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(Notification_Id,builder.build());
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

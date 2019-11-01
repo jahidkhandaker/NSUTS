@@ -11,16 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,9 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private DatabaseReference mDatabase;
-    private DatabaseReference mUserDatabase;
 
     RegisterUserClass mUser;
 
@@ -52,16 +46,21 @@ public class RegisterActivity extends AppCompatActivity {
         mContact = findViewById(R.id.contact);
         mRegisterPassword= findViewById(R.id.RegisterPassword);
         mConfirmPasswordView = findViewById(R.id.RegisterConfirmPassword);
-        mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton =  findViewById(R.id.register_button);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userRegister();
+                if (IsValid()){
+                    userRegister();
+                }
+                else {
+
+                }
             }
         });
 
-        mRegisterToLigin = (Button) findViewById(R.id.RegisterToLogin);
+        mRegisterToLigin =  findViewById(R.id.RegisterToLogin);
         mRegisterToLigin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,10 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                // Log.d("FlashChat", "createUser onComplete: " + task.isSuccessful());
-
                 if(!task.isSuccessful()){
-                    // Log.d("FlashChat", "user creation failed");
                     showErrorDialog("Registration attempt failed");
                 } else {
 
@@ -105,10 +101,28 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-//                    saveDisplayName();
-                }
+                     }
             }
         });
+    }
+
+    private boolean IsValid(){
+        String email = mRegisterEmail.getText().toString();
+        String pass = mRegisterPassword.getText().toString();
+        String Cpass = mConfirmPasswordView.getText().toString();
+
+        if (!email.contains("@northsouth.edu")){
+            Toast.makeText(RegisterActivity.this,
+                    "NSU Email Needed",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if (pass.length() < 4){
+            Toast.makeText(RegisterActivity.this,
+                    "At least 4 character",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+           return true;
     }
 
     private void getValues(){
