@@ -1,27 +1,23 @@
 package com.nsu499.nsuts.ui.home;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import androidx.lifecycle.ViewModelProviders;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,13 +35,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nsu499.nsuts.R;
-
 import java.util.Objects;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-
 public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=1;
     private HomeViewModel homeViewModel;
     private GoogleMap mMap;
     private View root;
@@ -80,12 +73,52 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 //            }
 //        });
 
+        LocationPermission();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         return root;
 
+    }
+
+    private void LocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+            }
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    LocationPermission();
+                }
+                return;
+            }
+
+        }
     }
 
 
@@ -131,7 +164,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
                 //busMarker.remove();
 
                 mMap.clear();
-                //myLocation();
+               // myLocation();
                 //Toast.makeText(getActivity(), myLocation.getMyLat()+"/", Toast.LENGTH_SHORT).show();
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -220,6 +253,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         builder.setContentTitle("Bus Arrival Alert");
         builder.setContentText("Approximate time 5-10 minutes");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
         notificationManagerCompat.notify(Notification_Id,builder.build());
