@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -38,7 +40,8 @@ import com.nsu499.nsuts.R;
 import java.util.Objects;
 public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=1;
+    private static final int MY_PERMISSIONS_REQUEST_Location=1;
+    private static final int MY_PERMISSIONS_REQUEST_Notification=1;
     private HomeViewModel homeViewModel;
     private GoogleMap mMap;
     private View root;
@@ -73,7 +76,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 //            }
 //        });
 
-        LocationPermission();
+        //LocationPermission();
+        CheckPermission(Manifest.permission.ACCESS_COARSE_LOCATION,MY_PERMISSIONS_REQUEST_Location);
+        CheckPermission(Manifest.permission.ACCESS_NOTIFICATION_POLICY,MY_PERMISSIONS_REQUEST_Notification);
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -82,41 +89,51 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
     }
 
-    private void LocationPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+    private void CheckPermission(String accessCoarseLocation, int MY_PERMISSIONS_REQUEST) {
+        if (ContextCompat.checkSelfPermission(getActivity(), accessCoarseLocation)
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    accessCoarseLocation)) {
 
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{accessCoarseLocation},
+                        MY_PERMISSIONS_REQUEST);
             } else {
                 ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                        new String[]{accessCoarseLocation},
+                        MY_PERMISSIONS_REQUEST);
 
             }
         } else {
 
         }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+            case MY_PERMISSIONS_REQUEST_Location: {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    LocationPermission();
+
                 }
-                return;
             }
+
+             MY_PERMISSIONS_REQUEST_Notification: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+
+                }
+
+            }
+            return;
 
         }
     }
@@ -144,11 +161,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         final String[] FixedBus = new String[1];
         String FuId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference().child("userId").child(FuId);
-        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 FixedBus[0] = dataSnapshot.child("booked").getValue(String.class);
-                //Toast.makeText(getActivity(),FixedBus[0], Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -161,8 +177,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         mLocationDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //busMarker.remove();
-
                 mMap.clear();
                // myLocation();
                 //Toast.makeText(getActivity(), myLocation.getMyLat()+"/", Toast.LENGTH_SHORT).show();
@@ -188,24 +202,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
 
     }
 
-
-//    public void myLocation() {
-//        final double [] myL = new double[2];
-//        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-//        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if (location != null) {
-//                    myL[0] = location.getLatitude();
-//                    myL[1]= location.getLongitude();
-//                    nsu = new LatLng(myL[0], myL[1]);
-//                    MeMarker =  mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
-//
-//                }
-//            }
-//        });
-//    }
-
     private void busOnArrival(final Double lat,final Double lon,final String title, final String fixedBus) {
 //        Toast.makeText(getActivity(), myLocation.getMyLat()+"/" , Toast.LENGTH_SHORT).show();
         final double [] myL = new double[2];
@@ -218,18 +214,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
                     myL[1] = location.getLongitude();
                     nsu = new LatLng(myL[0], myL[1]);
                     MeMarker = mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
-
                     if (title.equals(fixedBus)) {
                         float[] dist = new float[1];
-                        //location.distanceBetween(23.815455, 90.425264, 23.892020, 90.401956, dist);
                         location.distanceBetween(myL[0], myL[1], lat, lon, dist);
-                        String dur = String.valueOf(dist[0] / 1000.00);
-                       // Toast.makeText(getActivity(), myL[0] + "/"+fixedBus+"/" + myL[1], Toast.LENGTH_SHORT).show();
-                        if ((dist[0]) < 3.00){
-                            //Toast.makeText(getActivity(), "comming", Toast.LENGTH_LONG).show();
+                        //String dur = String.valueOf(dist[0] / 1000.00);
+                        //Toast.makeText(getActivity(), dur + "/"+fixedBus+"/" + myL[1], Toast.LENGTH_SHORT).show();
+                        if ((dist[0]) < 3000){
                             BusNotification();
                         }else {
-                            //Toast.makeText(getActivity(), dist[0]+"nothing/"+dur, Toast.LENGTH_LONG).show();
 
                         }
 
