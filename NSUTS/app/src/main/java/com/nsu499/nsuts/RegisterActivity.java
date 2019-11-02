@@ -132,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
         mUser.setBalance("00");
         mUser.setDue("00");
         mUser.setBooking(false);
+        mUser.setBooked("NotSelected");
     }
 
     private void InsertUserData() {

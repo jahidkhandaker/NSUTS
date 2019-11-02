@@ -99,7 +99,13 @@ public class BookingFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("booking").getValue(boolean.class)){ //-----------------change
+
+                if ((Double.valueOf(dataSnapshot.child("balance").getValue(String.class)))< 30){
+                    mSelectBusView.setText("Balance Low");
+                    mSelectBusViewToHome.setText("Balance Low");
+                    Toast.makeText(getActivity(),"Recharge your Balance",Toast.LENGTH_LONG).show();
+                }
+                else if (dataSnapshot.child("booking").getValue(boolean.class)){ //-----------------change
 
                     mSelectBusView.setText("Already Booked");
                     mSelectBusViewToHome.setText("Already Booked");

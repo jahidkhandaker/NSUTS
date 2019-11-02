@@ -251,9 +251,12 @@ public class StopageReqActivity extends AppCompatActivity{
         mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot out : dataSnapshot.getChildren()){
+                for (DataSnapshot out : dataSnapshot.getChildren()) {
                     String key = out.getKey();
-                    mUserReference.child(key).child("booking").setValue(false);
+                    if ((out.child("booked").getValue(String.class)).equals(BusId)) {
+                        mUserReference.child(key).child("booking").setValue(false);
+                        mUserReference.child(key).child("booked").setValue("NotSelected");
+                    }
                 }
             }
 
