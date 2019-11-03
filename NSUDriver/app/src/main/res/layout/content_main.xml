@@ -4,23 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/DimGray"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <Button
         android:id="@+id/toHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="135dp"
+        android:drawableTop="@drawable/ic_busicon"
         android:layout_below="@+id/toNsu"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttonshape"
         android:text="Start for Home" />
 
     <Button
         android:id="@+id/toNsu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_busicon"
+        android:layout_width="160dp"
+        android:layout_height="135dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="202dp"
+        android:layout_marginTop="140dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttonshape"
         android:text="Start For NSU" />
 </RelativeLayout>
