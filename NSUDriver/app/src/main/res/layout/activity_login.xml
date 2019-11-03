@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Select Bus"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/edit_text_bottom"
             android:padding="15dp"
             />
@@ -62,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/nsubusview"
             android:background="@drawable/edit_text_top"
-            android:hint="NSUID"
+            android:hint="Enter NSUId"
+            android:drawableLeft="@drawable/ic_user"
             android:inputType="number"
             android:padding="15dp" />
 
@@ -73,7 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_middle"
-            android:hint="Password"
+            android:drawableLeft="@drawable/ic_password"
+            android:hint="Enter Password"
             android:inputType="textPassword"
             android:padding="15dp"/>
 
