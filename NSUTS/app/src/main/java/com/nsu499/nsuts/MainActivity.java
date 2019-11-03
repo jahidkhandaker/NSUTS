@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentTitle("Low Balance");
         builder.setContentText("Current Balance: "+ baln);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(Notification_Id,builder.build());

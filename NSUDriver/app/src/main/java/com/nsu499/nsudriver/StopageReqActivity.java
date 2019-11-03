@@ -41,8 +41,6 @@ public class StopageReqActivity extends AppCompatActivity{
     LocationListener locationListener;
     LocationManager locationManager;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +58,6 @@ public class StopageReqActivity extends AppCompatActivity{
 
             @Override
             public void onLocationChanged(Location location) {
-
                 String Lat = String.valueOf(location.getLatitude());
                 String Lon = String.valueOf(location.getLongitude());
                 if (Lat!=null && Lon!=null){
