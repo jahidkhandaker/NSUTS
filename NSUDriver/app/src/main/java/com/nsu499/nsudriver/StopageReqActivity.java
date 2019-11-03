@@ -2,11 +2,14 @@ package com.nsu499.nsudriver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +38,9 @@ public class StopageReqActivity extends AppCompatActivity{
 
     ArrayList<StopageList> list;
 
+    LocationListener locationListener;
+    LocationManager locationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,49 @@ public class StopageReqActivity extends AppCompatActivity{
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("busId").child(BusId);
         mUserReference = FirebaseDatabase.getInstance().getReference().child("userId");
         mRfidReference = FirebaseDatabase.getInstance().getReference().child("rfid");
+
+        //----Location---------------
+        locationListener = new LocationListener() {
+
+            @Override
+            public void onLocationChanged(Location location) {
+                String Lat = String.valueOf(location.getLatitude());
+                String Lon = String.valueOf(location.getLongitude());
+                if (Lat!=null && Lon!=null){
+                    mDatabaseReference.child("location").child("latitude").setValue(Lat);
+                    mDatabaseReference.child("location").child("longitude").setValue(Lon);
+                }
+
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 15, locationListener);
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
+
+
+        //----Location---------------
 
         toNsuHome = busIdIntent.getStringExtra("toNsuHome");
 
@@ -99,19 +148,19 @@ public class StopageReqActivity extends AppCompatActivity{
 
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerForStopageList);
+        mRecyclerView =  findViewById(R.id.recyclerForStopageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //RecyclerView Start---------------------------------------------------------
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerForStopageList);
+        mRecyclerView =  findViewById(R.id.recyclerForStopageList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         mDatabaseReference.child("stopage").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                list= new ArrayList<StopageList>();
+                list= new ArrayList<>();
                 if(dataSnapshot.exists()) {
                     int i=1;
                     for (DataSnapshot resultSnapshot : dataSnapshot.getChildren()) {
@@ -136,8 +185,8 @@ public class StopageReqActivity extends AppCompatActivity{
         });
 
         //RecyclerView End---------------------------------------------------------
-    }
 
+    }
 
     private void rfidProcessing(final DatabaseReference mRfidReference, final String key) {
         mRfidReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -182,6 +231,8 @@ public class StopageReqActivity extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot out: dataSnapshot.getChildren()){
                     mDatabaseReference.child("stopage").child(out.getKey()).setValue("00");
+                    mDatabaseReference.child("Available Seat").setValue("30");
+
 
                 }
             }
@@ -197,9 +248,12 @@ public class StopageReqActivity extends AppCompatActivity{
         mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot out : dataSnapshot.getChildren()){
+                for (DataSnapshot out : dataSnapshot.getChildren()) {
                     String key = out.getKey();
-                    mUserReference.child(key).child("booking").setValue(false);
+                    if ((out.child("booked").getValue(String.class)).equals(BusId)) {
+                        mUserReference.child(key).child("booking").setValue(false);
+                        mUserReference.child(key).child("booked").setValue("NotSelected");
+                    }
                 }
             }
 
@@ -209,4 +263,6 @@ public class StopageReqActivity extends AppCompatActivity{
             }
         });
     }
+
+
 }

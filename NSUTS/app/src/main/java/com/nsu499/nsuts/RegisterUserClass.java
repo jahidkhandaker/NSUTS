@@ -6,18 +6,20 @@ public class RegisterUserClass {
     private String Contact;
     private String Balance;
     private String Due;
+    private String Booked;
     private Boolean Booking;
 
     public RegisterUserClass() {
     }
 
-    public RegisterUserClass(String nsuId, String email, String contact, String balance, String Due, Boolean booking) {
+    public RegisterUserClass(String nsuId, String email, String contact, String balance, String Due, Boolean booking, String booked) {
         this.nsuId = nsuId;
         Email = email;
         Contact = contact;
         Balance = balance;
         Due = Due ;
         Booking = booking;
+        Booked = booked;
     }
 
     public String getNsuId() {
@@ -66,5 +68,13 @@ public class RegisterUserClass {
 
     public void setBooking(Boolean booking) {
         Booking = booking;
+    }
+
+    public String getBooked() {
+        return Booked;
+    }
+
+    public void setBooked(String booked) {
+        Booked = booked;
     }
 }
