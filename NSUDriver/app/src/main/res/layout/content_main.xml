@@ -15,7 +15,7 @@
         android:layout_height="135dp"
         android:drawableTop="@drawable/ic_busicon"
         android:layout_below="@+id/toNsu"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="65dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/buttonshape"
         android:text="Start for Home" />
@@ -26,7 +26,7 @@
         android:layout_width="160dp"
         android:layout_height="135dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/buttonshape"
         android:text="Start For NSU" />
