@@ -137,10 +137,16 @@ public class BookingFragment extends Fragment {
                                         busList.add(titlename);
                                     }
                                 }
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, busList);
-                                //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
-                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                spinner.setAdapter(arrayAdapter);
+                                //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, busList);
+                                try{
+                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, busList);
+                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinner.setAdapter(arrayAdapter);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
                         @Override
@@ -201,9 +207,14 @@ public class BookingFragment extends Fragment {
                                         busList.add(titlename);
                                     }
                                 }
-                                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, busList);
-                                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                spinnerToHome.setAdapter(arrayAdapter);
+                                try{
+                                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, busList);
+                                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinnerToHome.setAdapter(arrayAdapter);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
 
@@ -283,9 +294,14 @@ public class BookingFragment extends Fragment {
                         String stopagename =  dataSnapshotPick.getKey();
                         stopageList.add(stopagename);
                     }
-                    ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
-                    arrayAdapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    mPickUp.setAdapter(arrayAdapterr);
+                    try{
+                        ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
+                        arrayAdapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        mPickUp.setAdapter(arrayAdapterr);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             }
@@ -348,9 +364,13 @@ public class BookingFragment extends Fragment {
                         String stopagename =  dataSnapshotPick.getKey();
                         stopageList.add(stopagename);
                     }
-                    ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
-                    arrayAdapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    mDestination.setAdapter(arrayAdapterr);
+                    try {
+                        ArrayAdapter<String> arrayAdapterr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, stopageList);
+                        arrayAdapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        mDestination.setAdapter(arrayAdapterr);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override

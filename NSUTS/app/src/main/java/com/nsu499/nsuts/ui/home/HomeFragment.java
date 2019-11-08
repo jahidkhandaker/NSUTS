@@ -174,30 +174,34 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
         });
 
         mLocationDatabase = FirebaseDatabase.getInstance().getReference().child("busId");
-        mLocationDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mMap.clear();
-               // myLocation();
-                //Toast.makeText(getActivity(), myLocation.getMyLat()+"/", Toast.LENGTH_SHORT).show();
-                if(dataSnapshot.exists()) {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        String title = dataSnapshot1.getKey() ;
-                        Double lat  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("latitude").getValue(String.class)));
-                        Double lon  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("longitude").getValue(String.class)));
-                        latLng = new LatLng(lat, lon);
-                        busMarker =  mMap.addMarker(new MarkerOptions().position(latLng).title(title).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_foreground)));
-                        busOnArrival(lat,lon,title,FixedBus[0]);
+        try {
+            mLocationDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mMap.clear();
+                    // myLocation();
+                    //Toast.makeText(getActivity(), myLocation.getMyLat()+"/", Toast.LENGTH_SHORT).show();
+                    if(dataSnapshot.exists()) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String title = dataSnapshot1.getKey() ;
+                            Double lat  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("latitude").getValue(String.class)));
+                            Double lon  = Double.valueOf(Objects.requireNonNull(dataSnapshot1.child("location").child("longitude").getValue(String.class)));
+                            latLng = new LatLng(lat, lon);
+                            busMarker =  mMap.addMarker(new MarkerOptions().position(latLng).title(title).icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_foreground)));
+                            busOnArrival(lat,lon,title,FixedBus[0]);
 
                         }
                     }
                 }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -205,30 +209,36 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private void busOnArrival(final Double lat,final Double lon,final String title, final String fixedBus) {
 //        Toast.makeText(getActivity(), myLocation.getMyLat()+"/" , Toast.LENGTH_SHORT).show();
         final double [] myL = new double[2];
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    myL[0] = location.getLatitude();
-                    myL[1] = location.getLongitude();
-                    nsu = new LatLng(myL[0], myL[1]);
-                    MeMarker = mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
-                    if (title.equals(fixedBus)) {
-                        float[] dist = new float[1];
-                        location.distanceBetween(myL[0], myL[1], lat, lon, dist);
-                        //String dur = String.valueOf(dist[0] / 1000.00);
-                        //Toast.makeText(getActivity(), dur + "/"+fixedBus+"/" + myL[1], Toast.LENGTH_SHORT).show();
-                        if ((dist[0]) < 3000){
-                            BusNotification();
-                        }else {
+
+        try {
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
+            mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        myL[0] = location.getLatitude();
+                        myL[1] = location.getLongitude();
+                        nsu = new LatLng(myL[0], myL[1]);
+                        MeMarker = mMap.addMarker(new MarkerOptions().position(nsu).title("Me"));
+                        if (title.equals(fixedBus)) {
+                            float[] dist = new float[1];
+                            location.distanceBetween(myL[0], myL[1], lat, lon, dist);
+                            //String dur = String.valueOf(dist[0] / 1000.00);
+                            //Toast.makeText(getActivity(), dur + "/"+fixedBus+"/" + myL[1], Toast.LENGTH_SHORT).show();
+                            if ((dist[0]) < 3000){
+                                BusNotification();
+                            }else {
+
+                            }
 
                         }
-
                     }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void BusNotification() {

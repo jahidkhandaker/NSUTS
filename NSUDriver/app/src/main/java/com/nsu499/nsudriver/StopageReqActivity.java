@@ -65,7 +65,6 @@ public class StopageReqActivity extends AppCompatActivity{
                     mDatabaseReference.child("location").child("longitude").setValue(Lon);
                 }
 
-
             }
 
             @Override
@@ -87,7 +86,7 @@ public class StopageReqActivity extends AppCompatActivity{
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 15, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 15, locationListener);
         }
         catch (SecurityException e){
             e.printStackTrace();

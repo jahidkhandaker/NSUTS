@@ -30,6 +30,7 @@
     <string name="menu_send">Logout</string>
     <string name="login_Confirmpassword_hint">Confirm Password</string>
     <string name="menu_info">Info</string>
+    <string name="submit">submit</string>
 
 
 </resources>
