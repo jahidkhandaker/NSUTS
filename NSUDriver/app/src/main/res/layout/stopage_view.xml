@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:orientation="horizontal"
-    tools:showIn="@layout/content_stopage_req">
+    tools:showIn="@layout/content_stopage">
 
     <LinearLayout
         android:layout_width="147dp"
@@ -18,7 +18,7 @@
             android:id="@+id/stopage_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Green"
+            android:background="@color/DarkSeaGreen"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/stopage_name"
@@ -37,7 +37,7 @@
             android:id="@+id/waiting_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Yellow"
+            android:background="@color/MistyRose"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/waiting_list"
