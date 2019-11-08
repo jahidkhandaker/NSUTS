@@ -3,9 +3,11 @@
     android:shape="rectangle">
 
     <gradient
-        android:startColor="#606060"
-        android:centerColor="#bebebe"
-        android:endColor="#f5f5f5" />
+
+        android:startColor="@color/Snow"
+        android:endColor="@color/Snow"
+
+        />
 
     <padding
         android:bottom="7dp"
