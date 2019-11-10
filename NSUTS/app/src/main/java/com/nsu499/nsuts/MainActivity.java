@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String email = dataSnapshot.child("email").getValue(String.class);
                 mUserIdView.setText(email);
-
                 String balance = dataSnapshot.child("balance").getValue(String.class);
                 mUserEmailView.setText("Balance: "+ balance);
                 int baln = Integer.valueOf(balance);
@@ -171,9 +170,9 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void onBackPressed() {
-       finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//       finish();
+//    }
 
 }

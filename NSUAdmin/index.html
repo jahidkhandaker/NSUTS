@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin App</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+
+	<div class="">
+		
+	<label>Insert bus </label> <br><br>
+	<form name="busForm" id="busForm" >
+		<input type="text"><br>
+		<input type="button" value="submit"onclick="writeUserData()">
+	</form>
+
+	</div>
+
+	<br><br>
+
+	<div class="">
+
+		<br>
+		<input type="button" onclick="stopageActivity()" value="InsertStopage"><br>
+		<br>
+		<form name="stopageForm" id="stopageForm" >
+		<SELECT id="bs">
+			<option id="option">SelectBus</option>
+		</SELECT><br><br>
+		<input type="text" value="Name"><br>
+		<input type="text" value="Name"><br>
+		<input type="text" value="Name"><br>
+		<input type="text" value="Name"><br>
+		<input type="button" value="submit"onclick="addStopage()">
+	</form>
+
+	</div>
+		
+	<div class="">
+		<br>
+		<input type="button" onclick="ViewComplain()" value="ViewComplain">
+		<br>
+		<table id="complain" >
+			<tr>
+				<td>Email Id</td>
+				<td>Complain</td>
+			</tr>
+
+			<tr>
+				<td>Email Id</td>
+				<td>Complain</td>
+			</tr>
+
+		</table>
+	</div>
+
+	<div class="">
+		<br>
+		<input type="button" onclick="ViewSchedule()" value="ViewSchedule">
+		<br>
+		<table id="schedule" >
+			<tr>
+				<td>BusName</td>
+				<td>From</td>
+				<td>To</td>
+				<td>Time</td>
+			</tr>
+
+			<tr>
+				<td>BusName</td>
+				<td>From</td>
+				<td>To</td>
+				<td>Time</td>
+			</tr>
+
+		</table>
+	</div>
+
+	<br><br>
+
+	<div class="">
+		
+	<label>Insert bus </label> <br><br>
+	<form name="RfidForm" id="RfidForm" >
+		<input type="text" placeholder="Card Number"><br>
+		<input type="text" placeholder="Insert UID"><br>
+		<input type="button" value="submit"onclick="addRfid()">
+	</form>
+
+	</div>
+
+	<br><br>
+
+	
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="firebasehandler.js"></script>
+
+</body>
+</html>
