@@ -170,7 +170,7 @@ public class BookingFragment extends Fragment {
                                         if(dataSnapshot.exists()) {
                                             mAseatTextToNsu.setVisibility(View.VISIBLE);
                                             mAseatToNsu.setVisibility(View.VISIBLE);
-                                            String availableSeat = String.valueOf(dataSnapshot.child(bus).child("Available Seat").getValue());
+                                            String availableSeat = String.valueOf(dataSnapshot.child(bus).child("AvailableSeat").getValue());
                                             int check = Integer.valueOf(availableSeat) ;
                                             if (check > 0) {
                                                 mAseatToNsu.setText(availableSeat);
@@ -241,7 +241,7 @@ public class BookingFragment extends Fragment {
                                         if(dataSnapshot.exists()) {
                                             mAseatTextToHome.setVisibility(View.VISIBLE);
                                             mAseatToHome.setVisibility(View.VISIBLE);
-                                            String availableSeat = String.valueOf(dataSnapshot.child(bus).child("Available Seat").getValue());
+                                            String availableSeat = String.valueOf(dataSnapshot.child(bus).child("AvailableSeat").getValue());
                                             int check = Integer.valueOf(availableSeat) ;
                                             if (check > 0) {
                                                 mAseatToHome.setText(availableSeat);
@@ -332,7 +332,7 @@ public class BookingFragment extends Fragment {
 
     private void confirmPickUp(final String pbus, final String pickpoint, final int check) {
         mConfirmPickup.setVisibility(View.VISIBLE);
-      final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
+      final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("AvailableSeat");
       final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);
        mConfirmPickup.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -400,7 +400,7 @@ public class BookingFragment extends Fragment {
 
     private void confirmToHome(final String pbus, final String pickpoint, View root, final int check) {
         mConfirmDestination.setVisibility(View.VISIBLE);
-        final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("Available Seat");
+        final DatabaseReference mConfirmReference = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("AvailableSeat");
         final DatabaseReference mConfirmReferenceReq = FirebaseDatabase.getInstance().getReference().child("busId").child(pbus).child("stopage").child(pickpoint);
         mConfirmDestination.setOnClickListener(new View.OnClickListener() {
             @Override

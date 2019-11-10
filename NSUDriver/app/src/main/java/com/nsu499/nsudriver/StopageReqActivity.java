@@ -230,7 +230,7 @@ public class StopageReqActivity extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot out: dataSnapshot.getChildren()){
                     mDatabaseReference.child("stopage").child(out.getKey()).setValue("00");
-                    mDatabaseReference.child("Available Seat").setValue("30");
+                    mDatabaseReference.child("AvailableSeat").setValue("30");
 
 
                 }
