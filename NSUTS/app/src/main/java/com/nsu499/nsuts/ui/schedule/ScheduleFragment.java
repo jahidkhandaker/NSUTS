@@ -72,7 +72,7 @@ public class ScheduleFragment extends Fragment {
                         i++;
 
                     }
-                    Toast.makeText(getActivity(),"Opps "+i+" ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Schedule No "+i+" ",Toast.LENGTH_SHORT).show();
                     mScheduleListAdapter = new ScheduleAdapter(getActivity(), list);
                     mScheduleRecyclerView.setAdapter(mScheduleListAdapter);
 

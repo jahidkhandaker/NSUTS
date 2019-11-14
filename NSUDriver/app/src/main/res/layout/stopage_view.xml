@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:orientation="horizontal"
-    tools:showIn="@layout/content_stopage">
+    tools:showIn="@layout/content_stopage_req">
 
     <LinearLayout
         android:layout_width="147dp"

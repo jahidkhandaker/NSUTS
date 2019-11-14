@@ -10,18 +10,28 @@
 
 
     <FrameLayout
+        android:id="@+id/supportBox"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="100dp"
         android:background="@color/whiteCardColor">
 
         <MultiAutoCompleteTextView
-            android:id="@+id/multiAutoCompleteTextView"
+            android:id="@+id/support_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
             android:hint="Comment Here"
              />
+
     </FrameLayout>
+
+    <Button
+        android:id="@+id/comment_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/supportBox"
+        android:layout_marginTop="25dp"
+        android:text="@string/submit" />
 
 </RelativeLayout>
