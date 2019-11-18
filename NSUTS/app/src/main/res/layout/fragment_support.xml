@@ -4,25 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryTextColor">
+    android:background="@color/light_green">
 
 
-
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="46dp"
+        android:text="Please Provide Your Complain Here"
+        android:textSize="20sp"
+        android:textAlignment="center"/>
 
     <FrameLayout
         android:id="@+id/supportBox"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="100dp"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="81dp"
         android:background="@color/whiteCardColor">
 
         <MultiAutoCompleteTextView
             android:id="@+id/support_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
             android:hint="Comment Here"
-             />
+            android:padding="20dp" />
 
     </FrameLayout>
 
@@ -31,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/supportBox"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="105dp"
+        android:background="@color/primaryTextColor"
         android:text="@string/submit" />
 
 </RelativeLayout>

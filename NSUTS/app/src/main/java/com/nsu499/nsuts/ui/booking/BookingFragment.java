@@ -345,6 +345,7 @@ public class BookingFragment extends Fragment {
                DueBalance(pickpoint);
                mUserReference.child("booked").setValue(pbus);
                Intent intent = new Intent(getActivity(), MainActivity.class);
+               getActivity().finish();
                startActivity(intent);
            }
        });
@@ -412,6 +413,7 @@ public class BookingFragment extends Fragment {
                 mUserReference.child("booking").setValue(true);
                 DueBalance(pickpoint);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().finish();
                 startActivity(intent);
             }
         });

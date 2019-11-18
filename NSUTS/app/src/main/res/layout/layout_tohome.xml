@@ -9,7 +9,8 @@
         android:textColor="@color/primaryTextColor"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Select Bus" />
+        android:text="Select Bus"
+        android:layout_marginTop="20dp"/>
 
     <Spinner
         android:id="@+id/spinnerToHome"
@@ -17,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/SelectBusViewToHome"
-        android:layout_marginTop="14dp" />
+        android:background="@drawable/edit_text_bottom"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:id="@+id/forDestinationseat"
@@ -57,14 +60,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/forDestinationseat"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="50dp">
 
         <Spinner
             android:id="@+id/DestinationSpinner"
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp" />
+            android:background="@drawable/edit_text_bottom"
+            android:padding="15dp"
+            android:layout_marginTop="10dp" />
 
 
     </LinearLayout>
@@ -74,14 +79,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/Destination"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="150dp">
 
 
         <Button
             android:id="@+id/ConfirmDestinationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/primaryTextColor"
             android:text="Confirm Booking" />
     </LinearLayout>
 
