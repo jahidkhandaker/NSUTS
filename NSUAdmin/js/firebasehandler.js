@@ -116,7 +116,3 @@ firebase.initializeApp(firebaseConfig);
 	}
 
 
-	
-	
-
-				
