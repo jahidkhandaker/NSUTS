@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>admin</title>
+		
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+
+</head>
+<body>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 ">
+				<nav>
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+						<a class="nav-item nav-link" id="nav-schedule-tab" data-toggle="tab" href="#nav-schedule" role="tab" aria-controls="nav-schedule" aria-selected="false">Schedule</a>
+						<a class="nav-item nav-link" id="nav-stopage-tab" data-toggle="tab" href="#nav-stopage" role="tab" aria-controls="nav-stopage" aria-selected="false">Add Stopage</a>
+						<a class="nav-item nav-link" id="nav-rfid-tab" data-toggle="tab" href="#nav-rfid" role="tab" aria-controls="nav-rfid" aria-selected="false">RFID</a>
+						<a class="nav-item nav-link" id="nav-complain-tab" data-toggle="tab" href="#nav-complain" role="tab" aria-controls="nav-complain" aria-selected="false">Complain Box</a>
+					</div>
+				</nav>
+				<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta esse, iste fugit voluptatum? Quasi eos voluptatibus, qui obcaecati rerum, laborum praesentium deleniti maxime quos aperiam, assumenda ipsum doloremque facilis dolore.
+
+
+					</div>
+
+					<div class="tab-pane fade" id="nav-schedule" role="tabpanel" aria-labelledby="nav-schedule-tab">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil recusandae laborum consectetur rem alias neque, ipsam nostrum soluta velit, autem ad. Iusto ex officiis nesciunt quasi voluptates! Repudiandae deleniti, nulla!
+
+						<div class="css_schedule">
+							<br>
+							<input type="button" onclick="ViewSchedule()" value="ViewSchedule">
+							<br>
+							<table id="schedule" >
+								<tr>
+									<td>BusName</td>
+									<td>From</td>
+									<td>To</td>
+									<td>Time</td>
+								</tr>
+							</table>
+							<br>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade" id="nav-stopage" role="tabpanel" aria-labelledby="nav-stopage-tab">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam at, sint deserunt eveniet, mollitia facere itaque iure sit non et sunt suscipit asperiores commodi. Enim quos eligendi at tenetur quaerat.
+						
+						<div class="css_addbus">
+							<br>
+							<label><b>Insert bus</b></label> <br>
+							<form name="busForm" id="busForm" >
+								<input type="text"><br>
+								<input type="button" value="submit"onclick="writeUserData()">
+							</form>
+							<br><br>
+						</div>
+
+						<div class="css_stopage">
+								<br>
+								<input type="button" onclick="stopageActivity()" value="InsertStopage"><br><br>
+								<form name="stopageForm" id="stopageForm" >
+									<SELECT id="bs">
+										<option id="option">SelectBus</option>
+									</SELECT><br><br>
+									<input type="text" value="Name"><br>
+									<input type="text" value="Name"><br>
+									<input type="text" value="Name"><br>
+									<input type="text" value="Name"><br>
+									<input type="button" value="submit"onclick="addStopage()">
+							</form>
+
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade" id="nav-rfid" role="tabpanel" aria-labelledby="nav-rfid-tab">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat placeat odio excepturi doloremque provident totam quis iusto quasi sint temporibus suscipit minima, incidunt nostrum aut, impedit consectetur illum alias accusantium!
+
+						<div class="css_rfid">
+		
+							<label>Insert bus </label> <br><br>
+							<form name="RfidForm" id="RfidForm" >
+								<input type="text" placeholder="Card Number"><br>
+								<input type="text" placeholder="Insert UID"><br>
+								<input type="button" value="submit"onclick="addRfid()">
+							</form>
+
+						</div>
+						<br><br>
+					</div>
+
+					<div class="tab-pane fade" id="nav-complain" role="tabpanel" aria-labelledby="nav-complain-tab">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi suscipit voluptatem mollitia placeat accusantium. Fuga odio architecto nobis fugiat dolores, cumque minima ipsam laboriosam culpa sit et quaerat iure, quam!
+						<div class="css_complain">
+							<br>
+							<input type="button" onclick="ViewComplain()" value="ViewComplain">
+							<br>
+							<table id="complain" >
+								<tr>
+									<td>Email Id</td>
+									<td>Complain</td>
+								</tr>
+
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="js/style.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-database.js"></script>
+	<script src="js/firebasehandler.js"></script>	
+
+</body>
+</html>

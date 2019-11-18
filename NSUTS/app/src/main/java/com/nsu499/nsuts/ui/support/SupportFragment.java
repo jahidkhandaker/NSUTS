@@ -1,5 +1,6 @@
 package com.nsu499.nsuts.ui.support;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nsu499.nsuts.MainActivity;
 import com.nsu499.nsuts.R;
 
 public class SupportFragment extends Fragment {
@@ -68,6 +70,9 @@ public class SupportFragment extends Fragment {
                     String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     mDatabaseReference.child(uId).child("email").setValue(uEmail);
                     mDatabaseReference.child(uId).child("text").setValue(mComment.getText().toString());
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    getActivity().finish();
+                    startActivity(intent);
                 }
             }
         });
