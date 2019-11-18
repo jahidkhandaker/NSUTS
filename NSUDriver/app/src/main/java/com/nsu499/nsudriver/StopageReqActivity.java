@@ -135,6 +135,7 @@ public class StopageReqActivity extends AppCompatActivity{
                         rfidProcessing(mRfidReference,key);
                         String uid = result.child("uid").getValue(String.class);
                         UserBalanceReduced(mUserReference,uid);
+                        mRfidReference.child(key).child("busRfid").setValue("");
                         Toast.makeText(StopageReqActivity.this,key, Toast.LENGTH_LONG).show();
                     }
             }
@@ -195,7 +196,7 @@ public class StopageReqActivity extends AppCompatActivity{
                 passengerNo = passengerNo + 1;
                 String onBus = String.valueOf(passengerNo);
                 mDatabaseReference.child("onBus").setValue(onBus);
-                mRfidReference.child(key).child("busRfid").setValue("");
+//                mRfidReference.child(key).child("busRfid").setValue("");
             }
 
             @Override

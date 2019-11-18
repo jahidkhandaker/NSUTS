@@ -341,9 +341,9 @@ public class BookingFragment extends Fragment {
                String decSeat = String.valueOf(dec) ;
                mConfirmReference.setValue(decSeat);
                SendReq(mConfirmReferenceReq);
+               mUserReference.child("booked").setValue(pbus);
                mUserReference.child("booking").setValue(true); //---------------------------------change-------------------
                DueBalance(pickpoint);
-               mUserReference.child("booked").setValue(pbus);
                Intent intent = new Intent(getActivity(), MainActivity.class);
                getActivity().finish();
                startActivity(intent);
@@ -410,6 +410,7 @@ public class BookingFragment extends Fragment {
                 String decSeat = String.valueOf(dec) ;
                 mConfirmReference.setValue(decSeat);
                 SendReq(mConfirmReferenceReq);
+                mUserReference.child("booked").setValue(pbus);
                 mUserReference.child("booking").setValue(true);
                 DueBalance(pickpoint);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
