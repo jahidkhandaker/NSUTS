@@ -121,5 +121,48 @@ nav > div a.nav-item.nav-link:focus
     
     
 }
+.css_rfid{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 300px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+   
+
+    
+}
+#RfidForm{
+	padding: 20px;
+    width: calc(100% - 40px);
+    height: 40px;
+    margin: auto;
+    
+    padding: 3px 16px;
+    font-weight: bold;
+    
+}
+.css_rfid input [type="button"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    border-radius: 20px;
+}
+/*.css_stopage{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 300px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+    
+}*/
 
 
