@@ -33,9 +33,9 @@
 					<div class="tab-pane fade" id="nav-schedule" role="tabpanel" aria-labelledby="nav-schedule-tab">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil recusandae laborum consectetur rem alias neque, ipsam nostrum soluta velit, autem ad. Iusto ex officiis nesciunt quasi voluptates! Repudiandae deleniti, nulla!
 
-						<div class="css_schedule">
+						<div class="css_schedule col-md-4 offset-4">
 							<br>
-							<input type="button" onclick="ViewSchedule()" value="ViewSchedule">
+							<input class="buttonCss" type="button" onclick="ViewSchedule()" value="ViewSchedule">
 							<br>
 							<table id="schedule" >
 								<tr>
@@ -53,19 +53,22 @@
 					<div class="tab-pane fade" id="nav-stopage" role="tabpanel" aria-labelledby="nav-stopage-tab">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam at, sint deserunt eveniet, mollitia facere itaque iure sit non et sunt suscipit asperiores commodi. Enim quos eligendi at tenetur quaerat.
 						
-						<div class="css_addbus">
+						<div class="row">
+							<div class="css_addbus col-md-4 offset-4">
 							<br>
 							<label><b>Insert bus</b></label> <br>
 							<form name="busForm" id="busForm" >
 								<input type="text"><br>
-								<input type="button" value="submit"onclick="writeUserData()">
+								<input class="buttonCss" type="button" value="submit"onclick="writeUserData()">
 							</form>
 							<br><br>
 						</div>
+						</div>
 
-						<div class="css_stopage">
+					<div class="row">
+							<div class="css_stopage col-md-4 offset-4">
 								<br>
-								<input type="button" onclick="stopageActivity()" value="InsertStopage"><br><br>
+								<input class="buttonCss" type="button" onclick="stopageActivity()" value="InsertStopage"><br><br>
 								<form name="stopageForm" id="stopageForm" >
 									<SELECT id="bs">
 										<option id="option">SelectBus</option>
@@ -74,23 +77,24 @@
 									<input type="text" value="Name"><br>
 									<input type="text" value="Name"><br>
 									<input type="text" value="Name"><br>
-									<input type="button" value="submit"onclick="addStopage()">
+									<input class="buttonCss" type="button" value="submit"onclick="addStopage()">
 							</form>
 
 						</div>
+					</div>
 
 					</div>
 
 					<div class="tab-pane fade" id="nav-rfid" role="tabpanel" aria-labelledby="nav-rfid-tab">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat placeat odio excepturi doloremque provident totam quis iusto quasi sint temporibus suscipit minima, incidunt nostrum aut, impedit consectetur illum alias accusantium!
 
-						<div class="css_rfid">
+						<div class="css_rfid col-md-4 offset-4">
 		
-							<label>Insert bus </label> <br><br>
+							<label><b></b> </label> <br>
 							<form name="RfidForm" id="RfidForm" >
 								<input type="text" placeholder="Card Number"><br>
 								<input type="text" placeholder="Insert UID"><br>
-								<input type="button" value="submit"onclick="addRfid()">
+								<input class="buttonCss" type="button" value="submit"onclick="addRfid()">
 							</form>
 
 						</div>
@@ -99,9 +103,9 @@
 
 					<div class="tab-pane fade" id="nav-complain" role="tabpanel" aria-labelledby="nav-complain-tab">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi suscipit voluptatem mollitia placeat accusantium. Fuga odio architecto nobis fugiat dolores, cumque minima ipsam laboriosam culpa sit et quaerat iure, quam!
-						<div class="css_complain">
+						<div class="css_complain col-md-8 offset-2">
 							<br>
-							<input type="button" onclick="ViewComplain()" value="ViewComplain">
+							<input class="buttonCss" type="button" onclick="ViewComplain()" value="ViewComplain">
 							<br>
 							<table id="complain" >
 								<tr>
