@@ -1,11 +1,11 @@
-var firebaseConfig = {
-    apiKey: "AIzaSyCm76SzUIiUon9KEIbAq7iP_i5vImbw7_Y",
-    authDomain: "whatsup-f9fab.firebaseapp.com",
-    databaseURL: "https://whatsup-f9fab.firebaseio.com",
-    projectId: "whatsup-f9fab",
-    storageBucket: "whatsup-f9fab.appspot.com",
-    messagingSenderId: "1008863225482",
-    appId: "1:1008863225482:web:2ef94b2f8cdd1139186f73"
+  var firebaseConfig = {
+    apiKey: "AIzaSyDlEKQlOJmehYkIPj5qFKLcqzTZPo4yOAs",
+    authDomain: "nsuts-950.firebaseapp.com",
+    databaseURL: "https://nsuts-950.firebaseio.com",
+    projectId: "nsuts-950",
+    storageBucket: "nsuts-950.appspot.com",
+    messagingSenderId: "798921759802",
+    appId: "1:798921759802:web:0f90ce815311f0607ba903"
   };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -43,6 +43,9 @@ firebase.initializeApp(firebaseConfig);
 	    tonsu: false,
 	  });
 
+	  alert("New Bus Added Successfully");
+	  location.reload();
+
 	}
 
 	function addStopage() {
@@ -54,6 +57,9 @@ firebase.initializeApp(firebaseConfig);
 	  		firebase.database().ref('busId').child(busid).child("stopage").child(stp).set("00");
 	  	}
 	  }
+
+	  alert("Successfully Added New Stopage");
+	  location.reload();
 
 	}
 
@@ -71,6 +77,8 @@ firebase.initializeApp(firebaseConfig);
 	   	truth: false,
 	   	uid: uid
 	  });
+	  alert("Successfully Added");
+	  location.reload();
 
 	}
 

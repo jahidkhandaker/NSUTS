@@ -1,3 +1,5 @@
+
+
 table tr td{
 	border: 1px solid black;
 	padding: 10px;
@@ -48,4 +50,11 @@ nav > div a.nav-item.nav-link:focus
     transition:background 0.20s linear;
 }
 
-
+.buttonCss{
+    background-color: #60D8EF;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+    border: 2px solid black;
+}
