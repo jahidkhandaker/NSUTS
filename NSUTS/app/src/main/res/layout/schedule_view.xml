@@ -23,11 +23,12 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_weight="1"
-                android:background="#ed8404"
+                android:background="@color/AliceBlue"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="18sp"
                 android:text="08:00"
-                android:textColor="#fff" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/FromTo"
@@ -36,11 +37,12 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_weight="1"
-                android:background="#ed8404"
+                android:background="@color/AliceBlue"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="18sp"
                 android:text="From -> To"
-                android:textColor="#fff" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/BusTitle"
@@ -49,11 +51,12 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_weight="1"
-                android:background="#ed8404"
+                android:background="@color/AliceBlue"
                 android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="18sp"
                 android:text="Bus Name"
-                android:textColor="#fff" />
+                android:textColor="@color/black" />
 
         </TableRow>
 
